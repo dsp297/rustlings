@@ -12,7 +12,6 @@ struct Color {
     blue: u8,
 }
 
-// I AM NOT DONE
 
 // Your task is to complete this implementation
 // and return an Ok result of inner type Color.
@@ -26,19 +25,59 @@ struct Color {
 // Tuple implementation
 impl TryFrom<(i16, i16, i16)> for Color {
     type Error = Box<dyn error::Error>;
-    fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {}
+    fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
+        let mut color = Color{red: 0, green: 0, blue:0};
+        color.red = tuple.0.try_into()?;
+        color.green = tuple.1.try_into()?;
+        color.blue = tuple.2.try_into()?;
+        Ok(color)
+    }
 }
 
 // Array implementation
 impl TryFrom<[i16; 3]> for Color {
     type Error = Box<dyn error::Error>;
-    fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {}
+    fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
+        let mut color = Color{red: 0, green: 0, blue:0};
+        color.red = arr[0].try_into()?;
+        color.green = arr[1].try_into()?;
+        color.blue = arr[2].try_into()?;
+        Ok(color)
+    }
 }
 
+
+/*
 // Slice implementation
 impl TryFrom<&[i16]> for Color {
-    type Error = Box<dyn error::Error>;
-    fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {}
+    type Error = String;
+    fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
+        if slice.len() != 3 {
+            return Err(String::from("slice must has 3 numbers for rgb"));
+        }
+        let color : Color =  match (slice[0], slice[1], slice[2]).try_into(){
+            
+        Ok(color)
+    }
+}
+*/
+// Slice implementation
+impl TryFrom<&[i16]> for Color {
+    type Error = String;
+    fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
+        let mut color = Color{red: 0, green: 0, blue:0};
+        if slice.len() != 3 {
+            return Err(String::from("fuck"));
+        }
+        if slice[0] < 0 || slice[0] > 255 || slice[1] < 0 || slice[1] > 255 || slice[2] < 0 || slice[2] > 255 {
+            return Err(String::from("you"));
+        } else {
+            color.red = slice[0] as u8;
+            color.green = slice[1] as u8;
+            color.blue = slice[2] as u8;
+            Ok(color)
+        }
+    }
 }
 
 fn main() {

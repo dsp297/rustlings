@@ -11,7 +11,6 @@ struct Person {
     age: usize,
 }
 
-// I AM NOT DONE
 
 // Steps:
 // 1. If the length of the provided string is 0, an error should be returned
@@ -20,12 +19,32 @@ struct Person {
 // 4. Extract the first element from the split operation and use it as the name
 // 5. Extract the other element from the split operation and parse it into a `usize` as the age
 //    with something like `"4".parse::<usize>()`
-// 6. If while extracting the name and the age something goes wrong, an error should be returned
+// 5. If while extracting the name and the age something goes wrong, an error should be returned
 // If everything goes well, then return a Result of a Person object
 
 impl FromStr for Person {
-    type Err = Box<dyn error::Error>;
+    type Err = ();
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        let mut per = Person{name: String::from("bepis"), age:5};
+        if s.len() > 0 {
+            match s.split_once(',') {
+                Some((name, age)) => {
+                    if name.len() <= 0 {
+                        return Err(());
+                    }
+                    per.name = name.to_string();
+                    if let Ok(bepis) = age.parse::<usize>() {
+                        per.age = bepis;
+                    } else {
+                        return Err(());
+                    };
+                },
+                None => return Err(()),
+            };
+            Ok(per)
+        } else {
+            return Err(());
+        }
     }
 }
 

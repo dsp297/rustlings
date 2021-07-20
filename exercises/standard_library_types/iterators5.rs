@@ -1,4 +1,5 @@
 // iterators5.rs
+
 // Let's define a simple model to track Rustlings exercise progress. Progress
 // will be modelled using a hash map. The name of the exercise is the key and
 // the progress is the value. Two counting functions were created to count the
@@ -10,7 +11,6 @@
 //
 // Make the code compile and the tests pass.
 
-// I AM NOT DONE
 
 use std::collections::HashMap;
 
@@ -34,6 +34,7 @@ fn count_for(map: &HashMap<String, Progress>, value: Progress) -> usize {
 fn count_iterator(map: &HashMap<String, Progress>, value: Progress) -> usize {
     // map is a hashmap with String keys and Progress values.
     // map = { "variables1": Complete, "from_str": None, ... }
+    map.into_iter().filter(|kp| kp.1 == &value).count()
 }
 
 fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
@@ -51,6 +52,7 @@ fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progres
 fn count_collection_iterator(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
     // collection is a slice of hashmaps.
     // collection = [{ "variables1": Complete, "from_str": None, ... },
+    collection.into_iter().map(|a| count_iterator(a, value)).into_iter().sum()
     //     { "variables2": Complete, ... }, ... ]
 }
 
